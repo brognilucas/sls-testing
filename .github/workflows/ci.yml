@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20, 22]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build all packages
+        run: pnpm turbo run build
+
+      - name: Type-check
+        run: pnpm turbo run check-types
+
+      - name: Run tests
+        run: pnpm turbo run test
+
+      - name: Run tests with coverage (core)
+        run: pnpm --filter @sls-testing/core test -- --coverage
+        if: matrix.node-version == 22
+
+      - name: Validate package exports
+        run: |
+          for pkg in packages/core packages/jest packages/serverless-plugin; do
+            echo "Checking $pkg..."
+            npx @arethetypeswrong/cli --pack "$pkg"
+          done
+        if: matrix.node-version == 22

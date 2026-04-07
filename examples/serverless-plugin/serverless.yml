@@ -1,0 +1,39 @@
+service: order-service
+
+plugins:
+  - serverless-testing-plugin
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: dev
+  region: us-east-1
+
+custom:
+  serverlessTesting:
+    envFile: .env.test
+    autoLoadEnv: true
+
+functions:
+  processOrder:
+    handler: src/handlers/process-order.handler
+    memorySize: 512
+    timeout: 30
+    environment:
+      ORDERS_TABLE: orders-${self:provider.stage}
+      NOTIFICATION_TOPIC: arn:aws:sns:us-east-1:123456789012:order-notifications
+    events:
+      - http:
+          path: /orders
+          method: post
+
+  getOrder:
+    handler: src/handlers/get-order.handler
+    memorySize: 256
+    timeout: 10
+    environment:
+      ORDERS_TABLE: orders-${self:provider.stage}
+    events:
+      - http:
+          path: /orders/{id}
+          method: get
