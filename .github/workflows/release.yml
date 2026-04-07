@@ -40,3 +40,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+          # OIDC trusted publishing: the id-token permission above allows
+          # npm to verify this workflow is authorized to publish.
+          # setup-node with registry-url sets up .npmrc automatically.
+          # No NPM_TOKEN secret needed — npm authenticates via GitHub's
+          # OIDC token when trusted publishers are configured on npmjs.com.
