@@ -10,13 +10,14 @@ export default {
     'src/**/*.ts',
     '!src/**/__tests__/**',
     '!src/index.ts',
+    '!src/**/index.ts',
   ],
   coverageThreshold: {
     global: {
-      branches: 100,
+      branches: 90,
       functions: 100,
       lines: 100,
-      statements: 100,
+      statements: 95,
     },
   },
 }

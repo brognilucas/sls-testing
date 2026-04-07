@@ -43,6 +43,19 @@ describe('assertLambdaError', () => {
     ).not.toThrow()
   })
 
+  it('throws when given a non-Error non-object value', () => {
+    expect(() =>
+      assertLambdaError('just a string' as any, { errorType: 'Error' }),
+    ).toThrow('Expected an Error or object')
+  })
+
+  it('throws when string message pattern does not match', () => {
+    const error = new Error('something happened')
+    expect(() =>
+      assertLambdaError(error, { messagePattern: 'not found' }),
+    ).toThrow('Expected error message to contain "not found"')
+  })
+
   it('throws on statusCode mismatch', () => {
     const error = Object.assign(new Error('err'), { statusCode: 500 })
     expect(() =>

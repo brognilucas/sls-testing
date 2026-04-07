@@ -56,6 +56,18 @@ describe('deepPartialMatch', () => {
     expect(deepPartialMatch(actual, expected)).toEqual({ pass: true })
   })
 
+  it('fails when actual is null but expected is not', () => {
+    const result = deepPartialMatch(null, { a: 1 })
+    expect(result.pass).toBe(false)
+    expect(result.diff).toContain('expected')
+  })
+
+  it('fails when actual is not an array but expected is', () => {
+    const result = deepPartialMatch({ a: 'not array' }, { a: [1, 2] })
+    expect(result.pass).toBe(false)
+    expect(result.diff).toContain('expected array')
+  })
+
   it('handles primitives directly', () => {
     expect(deepPartialMatch(42, 42)).toEqual({ pass: true })
     expect(deepPartialMatch('hello', 'hello')).toEqual({ pass: true })

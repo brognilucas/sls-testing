@@ -61,6 +61,24 @@ describe('assertApiResponse', () => {
     ).toThrow('response has no body')
   })
 
+  it('throws when string bodyContains does not match', () => {
+    expect(() =>
+      assertApiResponse(
+        { statusCode: 200, body: 'Hello World' },
+        { bodyContains: 'NotFound' },
+      ),
+    ).toThrow('Expected body to contain "NotFound"')
+  })
+
+  it('throws when header value does not match', () => {
+    expect(() =>
+      assertApiResponse(
+        { statusCode: 200, headers: { 'Content-Type': 'text/plain' } },
+        { headers: { 'Content-Type': 'application/json' } },
+      ),
+    ).toThrow('Expected header "Content-Type" to be "application/json"')
+  })
+
   it('passes with partial body match (subset of keys)', () => {
     expect(() =>
       assertApiResponse(

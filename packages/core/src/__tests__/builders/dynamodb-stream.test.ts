@@ -38,6 +38,11 @@ describe('marshall', () => {
     })
   })
 
+  it('falls back to String() for unknown types', () => {
+    const sym = Symbol('test')
+    expect(marshall(sym as any)).toEqual({ S: 'Symbol(test)' })
+  })
+
   it('marshalls nested structures', () => {
     const result = marshall({
       user: { name: 'Bob', tags: ['admin', 'active'] },
@@ -170,6 +175,26 @@ describe('buildDynamoDBStreamEvent', () => {
       pk: { S: 'pre-marshalled' },
       count: { N: '99' },
     })
+  })
+
+  it('applies additional record overrides via deepMerge', () => {
+    const event = buildDynamoDBStreamEvent({
+      records: [{
+        eventName: 'INSERT',
+        keys: { id: 'x' },
+        awsRegion: 'eu-west-1',
+      }],
+    })
+    expect(event.Records[0].awsRegion).toBe('eu-west-1')
+  })
+
+  it('applies top-level overrides after record expansion', () => {
+    const event = buildDynamoDBStreamEvent({
+      records: [{ eventName: 'INSERT', keys: { id: '1' } }],
+      Records: [{ eventID: 'custom-id' } as any],
+    } as any)
+    // Top-level Records override replaces expanded records
+    expect(event.Records[0].eventID).toBe('custom-id')
   })
 
   it('generates unique eventIDs per record', () => {
