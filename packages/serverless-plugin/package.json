@@ -1,6 +1,6 @@
 {
   "name": "serverless-testing-plugin",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Serverless Framework plugin that exposes function metadata and env loading for tests",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -18,7 +18,9 @@
       }
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "test": "jest --passWithNoTests",
@@ -32,11 +34,17 @@
     "tsup": "^8.3.0",
     "typescript": "^5.7.0"
   },
-  "keywords": ["serverless", "testing", "plugin", "lambda", "aws"],
+  "keywords": [
+    "serverless",
+    "testing",
+    "plugin",
+    "lambda",
+    "aws"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/practical-serverless/sls-testing.git",
+    "url": "https://github.com/brognilucas/sls-testing.git",
     "directory": "packages/serverless-plugin"
   }
 }

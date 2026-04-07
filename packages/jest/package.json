@@ -1,6 +1,6 @@
 {
   "name": "@sls-testing/jest",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Jest custom matchers for AWS Lambda testing — extends expect with serverless-specific assertions",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -18,7 +18,9 @@
       }
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "test": "jest --passWithNoTests",
@@ -39,11 +41,18 @@
     "tsup": "^8.3.0",
     "typescript": "^5.7.0"
   },
-  "keywords": ["aws", "lambda", "serverless", "testing", "jest", "matchers"],
+  "keywords": [
+    "aws",
+    "lambda",
+    "serverless",
+    "testing",
+    "jest",
+    "matchers"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/practical-serverless/sls-testing.git",
+    "url": "https://github.com/brognilucas/sls-testing.git",
     "directory": "packages/jest"
   }
 }

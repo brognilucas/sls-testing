@@ -3,7 +3,7 @@
 ## Development Setup
 
 ```bash
-git clone https://github.com/practical-serverless/sls-testing.git
+git clone https://github.com/brognilucas/sls-testing.git
 cd sls-testing
 pnpm install
 pnpm turbo run build

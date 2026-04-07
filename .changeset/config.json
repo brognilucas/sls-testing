@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
-  "changelog": ["@changesets/changelog-github", { "repo": "practical-serverless/sls-testing" }],
+  "changelog": ["@changesets/changelog-github", { "repo": "brognilucas/sls-testing" }],
   "commit": false,
   "fixed": [["@sls-testing/core", "@sls-testing/jest"]],
   "linked": [],
