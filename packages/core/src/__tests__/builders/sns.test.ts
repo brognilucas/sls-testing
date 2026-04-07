@@ -66,4 +66,22 @@ describe('buildSNSEvent', () => {
     expect(event.Records[1].Sns.Message).toBe('second')
     expect(event.Records[2].Sns.Message).toBe('third')
   })
+
+  it('applies additional record overrides via deepMerge', () => {
+    const event = buildSNSEvent({
+      records: [{
+        message: 'test',
+        EventVersion: '2.0',
+      } as any],
+    })
+    expect(event.Records[0].EventVersion).toBe('2.0')
+  })
+
+  it('applies top-level overrides after record expansion', () => {
+    const event = buildSNSEvent({
+      records: [{ message: 'test' }],
+      Records: [{ EventVersion: '9.9' } as any],
+    } as any)
+    expect(event.Records[0].EventVersion).toBe('9.9')
+  })
 })

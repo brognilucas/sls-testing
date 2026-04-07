@@ -59,6 +59,16 @@ describe('buildSQSEvent', () => {
     expect(event.Records).toHaveLength(0)
   })
 
+  it('applies additional record-level overrides via deepMerge', () => {
+    const event = buildSQSEvent({
+      records: [{
+        body: { test: true },
+        awsRegion: 'eu-west-1',
+      } as any],
+    })
+    expect(event.Records[0].awsRegion).toBe('eu-west-1')
+  })
+
   it('applies top-level overrides after record expansion', () => {
     const event = buildSQSEvent({
       records: [{ body: { test: true } }],
